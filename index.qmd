@@ -1,0 +1,15 @@
+---
+title: "Multigroup transmission and vaccination model"
+subtitle: "A tool for investigating intervention impacts on health disparities"
+author: Damon Toth
+institute: University of Utah
+format:
+  revealjs:
+    footer: "Damon Toth"
+    self-contained-math: true
+    theme: simple
+    slide-number: c
+---
+
+## Multigroup Transmission {.smaller}
+
