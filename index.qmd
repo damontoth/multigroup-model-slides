@@ -11,5 +11,52 @@ format:
     slide-number: c
 ---
 
-## Multigroup Transmission {.smaller}
+## Motivation {.smaller}
 
+-   Infectious disease outbreaks can have disparate impacts across different population sub-groups
+
+-   Higher infection rates in one group can occur by several mechanisms
+
+    -   Higher susceptibility to the infectious organism
+
+    -   Higher overall rates of person-to-person contact
+
+    -   Transmission amplification due to higher within-group contact
+
+-   Disparities in vaccination coverage can also exist
+
+    -   How do efforts to reduce vaccine disparity affect transmission outcomes?
+
+    -   Can interventions aimed at reducing disparities be cost effective?
+
+## Two-group mathematical model {.smaller}
+
+Susceptible ($S$) -- Infectious ($I$) -- Removed ($R$) model with two groups (A and B)
+
+:::::: columns
+:::: {.column width="50%"}
+::: {style="font-size: 70%;"}
+$$\frac{dS_A}{dt} = -\left(\beta_{AA}\frac{I_A}{N_A} + \beta_{AB}\frac{I_B}{N_B}\right)S_A
+$$ $$\frac{dS_B}{dt} = -\left(\beta_{BA}\frac{I_A}{N_A} + \beta_{BB}\frac{I_B}{N_B}\right)S_B
+$$ $$\frac{dI_A}{dt} = \left(\beta_{AA}\frac{I_A}{N_A} + \beta_{AB}\frac{I_B}{N_B}\right)S_A - \gamma I_A
+$$ $$\frac{dI_B}{dt} = \left(\beta_{BA}\frac{I_A}{N_A} + \beta_{BB}\frac{I_B}{N_B}\right)S_B - \gamma I_B
+$$ $$\frac{dR_A}{dt} = \gamma I_A
+$$ $$\frac{dR_B}{dt} = \gamma I_B
+$$
+:::
+::::
+
+::: {.column width="50%"}
+::: {style="font-size: 70%;"}
+-   $N_A$, $N_B$: Group population sizes
+
+-   $\gamma$: End-of-infectiousness rate
+
+-   $\beta_{ij}$: Transmission rates...
+
+$$
+\beta_{ii} = a_iq_i\left(\epsilon_i+(1-\epsilon_i) \frac{(1-\epsilon_i)a_iN_i}{(1-\epsilon_i)a_iN_i+(1-\epsilon_j)a_jN_j}\right)
+$$
+:::
+:::
+::::::

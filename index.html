@@ -142,8 +142,49 @@ Damon Toth
 </div>
 
 </section>
-<section id="multigroup-transmission" class="slide level2 smaller">
-<h2>Multigroup Transmission</h2>
+<section id="motivation" class="slide level2 smaller">
+<h2>Motivation</h2>
+<ul>
+<li><p>Infectious disease outbreaks can have disparate impacts across different population sub-groups</p></li>
+<li><p>Higher infection rates in one group can occur by several mechanisms</p>
+<ul>
+<li><p>Higher susceptibility to the infectious organism</p></li>
+<li><p>Higher overall rates of person-to-person contact</p></li>
+<li><p>Transmission amplification due to higher within-group contact</p></li>
+</ul></li>
+<li><p>Disparities in vaccination coverage can also exist</p>
+<ul>
+<li><p>How do efforts to reduce vaccine disparity affect transmission outcomes?</p></li>
+<li><p>Can interventions aimed at reducing disparities be cost effective?</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="two-group-mathematical-model" class="slide level2 smaller">
+<h2>Two-group mathematical model</h2>
+<p>Susceptible (<span class="math inline">\(S\)</span>) – Infectious (<span class="math inline">\(I\)</span>) – Removed (<span class="math inline">\(R\)</span>) model with two groups (A and B)</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div style="font-size: 70%;">
+<p><span class="math display">\[\frac{dS_A}{dt} = -\left(\beta_{AA}\frac{I_A}{N_A} + \beta_{AB}\frac{I_B}{N_B}\right)S_A
+\]</span> <span class="math display">\[\frac{dS_B}{dt} = -\left(\beta_{BA}\frac{I_A}{N_A} + \beta_{BB}\frac{I_B}{N_B}\right)S_B
+\]</span> <span class="math display">\[\frac{dI_A}{dt} = \left(\beta_{AA}\frac{I_A}{N_A} + \beta_{AB}\frac{I_B}{N_B}\right)S_A - \gamma I_A
+\]</span> <span class="math display">\[\frac{dI_B}{dt} = \left(\beta_{BA}\frac{I_A}{N_A} + \beta_{BB}\frac{I_B}{N_B}\right)S_B - \gamma I_B
+\]</span> <span class="math display">\[\frac{dR_A}{dt} = \gamma I_A
+\]</span> <span class="math display">\[\frac{dR_B}{dt} = \gamma I_B
+\]</span></p>
+</div>
+</div><div class="column" style="width:50%;">
+<div style="font-size: 70%;">
+<ul>
+<li><p><span class="math inline">\(N_A\)</span>, <span class="math inline">\(N_B\)</span>: Group population sizes</p></li>
+<li><p><span class="math inline">\(\gamma\)</span>: End-of-infectiousness rate</p></li>
+<li><p><span class="math inline">\(\beta_{ij}\)</span>: Transmission rates…</p></li>
+</ul>
+<p><span class="math display">\[
+\beta_{ii} = a_iq_i\left(\epsilon_i+(1-\epsilon_i) \frac{(1-\epsilon_i)a_iN_i}{(1-\epsilon_i)a_iN_i+(1-\epsilon_j)a_jN_j}\right)
+\]</span></p>
+</div>
+</div></div>
 
 </section>
     </div>
