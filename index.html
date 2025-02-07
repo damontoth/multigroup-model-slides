@@ -176,13 +176,24 @@ Damon Toth
 </div><div class="column" style="width:50%;">
 <div style="font-size: 70%;">
 <ul>
-<li><p><span class="math inline">\(N_A\)</span>, <span class="math inline">\(N_B\)</span>: Group population sizes</p></li>
-<li><p><span class="math inline">\(\gamma\)</span>: End-of-infectiousness rate</p></li>
-<li><p><span class="math inline">\(\beta_{ij}\)</span>: Transmission rates…</p></li>
+<li><span class="math inline">\(N_A\)</span>, <span class="math inline">\(N_B\)</span>: Group population sizes</li>
+<li><span class="math inline">\(\gamma\)</span>: End-of-infectiousness rate</li>
+<li><span class="math inline">\(\beta_{ij}\)</span>: Transmission rates:</li>
 </ul>
 <p><span class="math display">\[
-\beta_{ii} = a_iq_i\left(\epsilon_i+(1-\epsilon_i) \frac{(1-\epsilon_i)a_iN_i}{(1-\epsilon_i)a_iN_i+(1-\epsilon_j)a_jN_j}\right)
+\beta_{ii} = q_ia_i\left(\epsilon_i+(1-\epsilon_i) \frac{(1-\epsilon_i)a_iN_i}{(1-\epsilon_i)a_iN_i+(1-\epsilon_j)a_jN_j}\right)
+\]</span> <span class="math display">\[
+\beta_{ij} = q_ia_i(1-\epsilon_i) \frac{(1-\epsilon_j)a_jN_j}{(1-\epsilon_i)a_iN_i+(1-\epsilon_j)a_jN_j},\quad i\neq j
 \]</span></p>
+<ul>
+<li><p><span class="math inline">\(q_i\)</span>: probability of infection per at-risk contact for group <span class="math inline">\(i\)</span></p></li>
+<li><p><span class="math inline">\(a_i\)</span>: overall contact rate of group <span class="math inline">\(i\)</span></p></li>
+<li><p><span class="math inline">\(\epsilon_i\)</span>: portion of group <span class="math inline">\(i\)</span>’s contacts exclusively within group</p>
+<ul>
+<li><p><span class="math inline">\(\epsilon_i=0\)</span>: contacts occur proportionally to overall group sizes and contact rates</p></li>
+<li><p><span class="math inline">\(\epsilon_i=1\)</span>: all contacts are within own group</p></li>
+</ul></li>
+</ul>
 </div>
 </div></div>
 

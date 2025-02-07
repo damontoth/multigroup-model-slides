@@ -33,7 +33,7 @@ format:
 
 Susceptible ($S$) -- Infectious ($I$) -- Removed ($R$) model with two groups (A and B)
 
-:::::: columns
+::::::: columns
 :::: {.column width="50%"}
 ::: {style="font-size: 70%;"}
 $$\frac{dS_A}{dt} = -\left(\beta_{AA}\frac{I_A}{N_A} + \beta_{AB}\frac{I_B}{N_B}\right)S_A
@@ -46,17 +46,27 @@ $$
 :::
 ::::
 
-::: {.column width="50%"}
+:::: {.column width="50%"}
 ::: {style="font-size: 70%;"}
 -   $N_A$, $N_B$: Group population sizes
-
 -   $\gamma$: End-of-infectiousness rate
-
--   $\beta_{ij}$: Transmission rates...
+-   $\beta_{ij}$: Transmission rates:
 
 $$
-\beta_{ii} = a_iq_i\left(\epsilon_i+(1-\epsilon_i) \frac{(1-\epsilon_i)a_iN_i}{(1-\epsilon_i)a_iN_i+(1-\epsilon_j)a_jN_j}\right)
+\beta_{ii} = q_ia_i\left(\epsilon_i+(1-\epsilon_i) \frac{(1-\epsilon_i)a_iN_i}{(1-\epsilon_i)a_iN_i+(1-\epsilon_j)a_jN_j}\right)
+$$ $$
+\beta_{ij} = q_ia_i(1-\epsilon_i) \frac{(1-\epsilon_j)a_jN_j}{(1-\epsilon_i)a_iN_i+(1-\epsilon_j)a_jN_j},\quad i\neq j
 $$
+
+-   $q_i$: probability of infection per at-risk contact for group $i$
+
+-   $a_i$: overall contact rate of group $i$
+
+-   $\epsilon_i$: portion of group $i$'s contacts exclusively within group
+
+    -   $\epsilon_i=0$: contacts occur proportionally to overall group sizes and contact rates
+
+    -   $\epsilon_i=1$: all contacts are within own group
 :::
-:::
-::::::
+::::
+:::::::
