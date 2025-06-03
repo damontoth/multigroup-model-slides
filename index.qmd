@@ -1,6 +1,6 @@
 ---
 title: "Multigroup transmission and vaccination model"
-subtitle: "A tool for investigating intervention impacts on health disparities"
+subtitle: "A tool for investigating intervention impacts in a heterogeneous population"
 author: Damon Toth and Willy Ray
 institute: University of Utah
 format:
@@ -75,7 +75,7 @@ $$
 
 -   Transmission model
 
-    -   Population sizes ($N_A$, $N_B$)
+    -   Population sizes ($N_i$)
 
     -   Overall transmissibility of pathogen (Basic reproduction number $R_0$)
 
@@ -95,25 +95,27 @@ $$
 
 ## Final outbreak size calculation {.smaller}
 
-With the input components from the previous slide, the `getFinalSize()` function does the following:
+With the input components from the previous slide, the `getFinalSize()` function
 
 -   Computes the $\beta_{ij}$ transmission rate values
 
 -   Simulates the differential equations up to the vaccination time (if \>0)
 
--   Calculates (simulation-free) the final size of the outbreak for each group
+-   Calculates (simulation-free) the final size of the outbreak for each group:
+
+###
+::: {style="font-size: 70%;"}
+$$ Z_1 = (N_1-V_1)\left(1-\exp\left(-\frac{\beta_{11}}{\gamma}\frac{Z_1}{N_1}-
+\frac{\beta_{12}}{\gamma}\frac{Z_2}{N_2}\right)\right) $$ $$ Z_2 = (N_2-V_2)\left(1-\exp\left(-\frac{\beta_{21}}{\gamma}\frac{Z_1}{N_1}-
+\frac{\beta_{22}}{\gamma}\frac{Z_2}{N_2}\right)\right) $$
+:::
 
 ```{r, echo=TRUE, output=FALSE}
-library(vaccine.equity)
-finalsize <- getFinalSize(vacTime=0, vacPortion=c(0.1,0.1), popSize = c(800000, 200000), R0 = 1.5,
-                          recoveryRate = 1/7, contactRatio = 1.7, contactWithinGroup = c(0.4, 0.4),
-                          suscRatio = 1)
+library(multigroup.vaccine)
+finalsize <- getFinalSize(vacTime=0, vacPortion=c(0.1, 0.1), popSize = c(8e5, 2e5), R0 = 1.5, recoveryRate = 1/7,
+                          relContact = c(1, 1.7), contactWithinGroup = c(0.4, 0.4), relSusc = c(1, 1))
 ```
 
 ```{r}
 print(round(finalsize))
 ```
-
--   Output gives total number of infections in each group over the whole outbreak
--   Can then apply group A/B rates per infection for hospitalizations, deaths among hospitalized, non-hospitalized
--   Economic costs for each group per vaccine, infection, hospitalization, death

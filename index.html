@@ -193,7 +193,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">Multigroup transmission and vaccination model</h1>
-  <p class="subtitle">A tool for investigating intervention impacts on health disparities</p>
+  <p class="subtitle">A tool for investigating intervention impacts in a heterogeneous population</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -267,7 +267,7 @@ Damon Toth and Willy Ray
 <ul>
 <li><p>Transmission model</p>
 <ul>
-<li><p>Population sizes (<span class="math inline">\(N_A\)</span>, <span class="math inline">\(N_B\)</span>)</p></li>
+<li><p>Population sizes (<span class="math inline">\(N_i\)</span>)</p></li>
 <li><p>Overall transmissibility of pathogen (Basic reproduction number <span class="math inline">\(R_0\)</span>)</p></li>
 <li><p>Relative susceptibility per contact (<span class="math inline">\(q_B/q_A\)</span>)</p></li>
 <li><p>Relative overall contact rate (<span class="math inline">\(a_A/a_B\)</span>)</p></li>
@@ -283,28 +283,28 @@ Damon Toth and Willy Ray
 </section>
 <section id="final-outbreak-size-calculation" class="slide level2 smaller">
 <h2>Final outbreak size calculation</h2>
-<p>With the input components from the previous slide, the <code>getFinalSize()</code> function does the following:</p>
+<p>With the input components from the previous slide, the <code>getFinalSize()</code> function</p>
 <ul>
 <li><p>Computes the <span class="math inline">\(\beta_{ij}\)</span> transmission rate values</p></li>
 <li><p>Simulates the differential equations up to the vaccination time (if &gt;0)</p></li>
-<li><p>Calculates (simulation-free) the final size of the outbreak for each group</p></li>
+<li><p>Calculates (simulation-free) the final size of the outbreak for each group:</p></li>
 </ul>
+<h3 id="section"></h3>
+<div style="font-size: 70%;">
+<p><span class="math display">\[ Z_1 = (N_1-V_1)\left(1-\exp\left(-\frac{\beta_{11}}{\gamma}\frac{Z_1}{N_1}-
+\frac{\beta_{12}}{\gamma}\frac{Z_2}{N_2}\right)\right) \]</span> <span class="math display">\[ Z_2 = (N_2-V_2)\left(1-\exp\left(-\frac{\beta_{21}}{\gamma}\frac{Z_1}{N_1}-
+\frac{\beta_{22}}{\gamma}\frac{Z_2}{N_2}\right)\right) \]</span></p>
+</div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(vaccine.equity)</span>
-<span id="cb1-2"><a href=""></a>finalsize <span class="ot">&lt;-</span> <span class="fu">getFinalSize</span>(<span class="at">vacTime=</span><span class="dv">0</span>, <span class="at">vacPortion=</span><span class="fu">c</span>(<span class="fl">0.1</span>,<span class="fl">0.1</span>), <span class="at">popSize =</span> <span class="fu">c</span>(<span class="dv">800000</span>, <span class="dv">200000</span>), <span class="at">R0 =</span> <span class="fl">1.5</span>,</span>
-<span id="cb1-3"><a href=""></a>                          <span class="at">recoveryRate =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">7</span>, <span class="at">contactRatio =</span> <span class="fl">1.7</span>, <span class="at">contactWithinGroup =</span> <span class="fu">c</span>(<span class="fl">0.4</span>, <span class="fl">0.4</span>),</span>
-<span id="cb1-4"><a href=""></a>                          <span class="at">suscRatio =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(multigroup.vaccine)</span>
+<span id="cb1-2"><a href=""></a>finalsize <span class="ot">&lt;-</span> <span class="fu">getFinalSize</span>(<span class="at">vacTime=</span><span class="dv">0</span>, <span class="at">vacPortion=</span><span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>), <span class="at">popSize =</span> <span class="fu">c</span>(<span class="fl">8e5</span>, <span class="fl">2e5</span>), <span class="at">R0 =</span> <span class="fl">1.5</span>, <span class="at">recoveryRate =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">7</span>,</span>
+<span id="cb1-3"><a href=""></a>                          <span class="at">relContact =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">1.7</span>), <span class="at">contactWithinGroup =</span> <span class="fu">c</span>(<span class="fl">0.4</span>, <span class="fl">0.4</span>), <span class="at">relSusc =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 232690 102384</code></pre>
 </div>
 </div>
-<ul>
-<li>Output gives total number of infections in each group over the whole outbreak</li>
-<li>Can then apply group A/B rates per infection for hospitalizations, deaths among hospitalized, non-hospitalized</li>
-<li>Economic costs for each group per vaccine, infection, hospitalization, death</li>
-</ul>
 
 </section>
     </div>
