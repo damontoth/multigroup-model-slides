@@ -28,6 +28,8 @@ format:
     -   How do efforts to reduce vaccine disparity affect transmission outcomes?
 
     -   Can interventions aimed at reducing disparities be cost effective?
+    
+    -   What risk to do low-vaccination subgroups pose to the whole population?    
 
 ## Two-group mathematical model {.smaller}
 
