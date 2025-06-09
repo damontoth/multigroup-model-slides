@@ -241,7 +241,7 @@ Damon Toth and Willy Ray
 </div><div class="column" style="width:50%;">
 <div style="font-size: 70%;">
 <ul>
-<li><span class="math inline">\(N_A\)</span>, <span class="math inline">\(N_B\)</span>: Group population sizes</li>
+<li><span class="math inline">\(N_i\)</span>: Group population sizes</li>
 <li><span class="math inline">\(\gamma\)</span>: End-of-infectiousness rate</li>
 <li><span class="math inline">\(\beta_{ij}\)</span>: Transmission rates:</li>
 </ul>
@@ -305,8 +305,88 @@ Damon Toth and Willy Ray
 <pre><code>[1] 232690 102384</code></pre>
 </div>
 </div>
-
 </section>
+<section id="final-size-by-ode-numerical-solver" class="slide level2 smaller">
+<h2>Final size by ODE numerical solver</h2>
+<ul>
+<li>Parameter settings</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>popsize <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">60</span>, <span class="dv">100</span>, <span class="dv">500</span>); R0 <span class="ot">&lt;-</span> <span class="fl">1.5</span>; meaninf <span class="ot">&lt;-</span> <span class="dv">7</span></span>
+<span id="cb3-2"><a href=""></a>incontact <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.8</span>, <span class="fl">0.8</span>); relcontact <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">1.2</span>, <span class="fl">1.3</span>); relsusc <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.9</span>, <span class="fl">1.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Contact matrix <span class="math inline">\(c_{ij}\)</span> and transmission matrix <span class="math inline">\(\beta_{ij}\)</span></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>f <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> incontact) <span class="sc">*</span> relcontact <span class="sc">*</span> popsize</span>
+<span id="cb4-2"><a href=""></a>cij <span class="ot">&lt;-</span> (<span class="fu">diag</span>(incontact) <span class="sc">+</span> <span class="fu">outer</span>((<span class="dv">1</span> <span class="sc">-</span> incontact), f <span class="sc">/</span> <span class="fu">sum</span>(f)))</span>
+<span id="cb4-3"><a href=""></a>reltransm <span class="ot">&lt;-</span> relcontact <span class="sc">*</span> relsusc <span class="sc">*</span> cij</span>
+<span id="cb4-4"><a href=""></a>betaij <span class="ot">&lt;-</span> <span class="fu">transmissionRates</span>(R0, meaninf, reltransm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Call <code>getFinalSizeODE()</code></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">getFinalSizeODE</span>(<span class="at">transmrates =</span> betaij, <span class="at">recoveryrate =</span> <span class="dv">1</span> <span class="sc">/</span> meaninf, <span class="at">popsize =</span> popsize, </span>
+<span id="cb5-2"><a href=""></a>                <span class="at">initR =</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">3</span>), <span class="at">initI =</span> popsize<span class="sc">/</span><span class="fu">sum</span>(popsize), <span class="at">initV =</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$totalSize
+[1]  20.23576  38.87100 298.41505
+
+$activeSize
+[1] 2.325143e-09 3.762556e-09 8.813462e-09</code></pre>
+</div>
+</div>
+</section>
+<section id="final-size-method-comparison" class="slide level2 smaller">
+<h2>Final size method comparison</h2>
+<ul>
+<li>ODE solver solution</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">getFinalSizeODE</span>(<span class="at">transmrates =</span> betaij, <span class="at">recoveryrate =</span> <span class="dv">1</span> <span class="sc">/</span> meaninf, <span class="at">popsize =</span> popsize, </span>
+<span id="cb7-2"><a href=""></a>                <span class="at">initR =</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">3</span>), <span class="at">initI =</span> popsize<span class="sc">/</span><span class="fu">sum</span>(popsize), <span class="at">initV =</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">3</span>))<span class="sc">$</span>totalSize</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  20.23576  38.87100 298.41505</code></pre>
+</div>
+</div>
+<ul>
+<li>Analytic solution</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">getFinalSize</span>(<span class="dv">0</span>, <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">3</span>), popsize, R0, <span class="dv">1</span> <span class="sc">/</span> meaninf, relcontact, incontact, relsusc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  20.23575  38.87101 298.41505</code></pre>
+</div>
+</div>
+<ul>
+<li>Notes
+<ul>
+<li>Analytic solution would seem better, but requires numerical root finder that’s not always stable</li>
+<li>ODE solver requires a stop time, but can use stop condition.</li>
+</ul></li>
+</ul>
+</section>
+<section id="final-size-by-stochastic-simulation" class="slide level2 smaller">
+<h2>Final size by stochastic simulation</h2>
+<ul>
+<li>Implement Gillespie algorithm with <code>getFinalSizeDist()</code>:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>fsdist <span class="ot">&lt;-</span> <span class="fu">getFinalSizeDist</span>(<span class="at">n =</span> <span class="dv">500</span>, <span class="at">transmrates =</span> betaij, <span class="at">recoveryrate =</span> <span class="dv">1</span> <span class="sc">/</span> meaninf, <span class="at">popsize =</span> popsize, </span>
+<span id="cb11-2"><a href=""></a>                           <span class="at">initR =</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">3</span>), <span class="at">initI =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">10</span>), <span class="at">initV =</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">3</span>))</span>
+<span id="cb11-3"><a href=""></a><span class="fu">hist</span>(<span class="fu">rowSums</span>(fsdist), <span class="at">breaks =</span> <span class="dv">50</span>, <span class="at">main =</span> <span class="st">"final size distribution"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">list</span>(<span class="at">odefinalsize =</span> <span class="fu">sum</span>(<span class="fu">getFinalSizeODE</span>(<span class="at">transmrates =</span> betaij, <span class="at">recoveryrate =</span> <span class="dv">1</span> <span class="sc">/</span> meaninf, <span class="at">popsize =</span> popsize,</span>
+<span id="cb12-2"><a href=""></a>                                        <span class="at">initR =</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">3</span>), <span class="at">initI =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">10</span>), <span class="at">initV =</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">3</span>))<span class="sc">$</span>totalSize))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$odefinalsize
+[1] 372.2385</code></pre>
+</div>
+</div>
+
+<img data-src="index_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
